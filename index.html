@@ -507,6 +507,46 @@
       margin-left: 8px;
     }
 
+    /* Blog cards (home) */
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 28px;
+    }
+    @media (max-width: 900px) { .post-grid { grid-template-columns: 1fr; } }
+    .post-card {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: var(--surface);
+      transition: border-color 0.25s, transform 0.25s, background 0.25s;
+      color: var(--text);
+    }
+    .post-card:hover { border-color: var(--border-strong); background: var(--surface-2); transform: translateY(-2px); color: var(--text); }
+    .post-card h3 { color: var(--text); margin: 8px 0 8px; }
+    .post-card:hover h3 { color: var(--accent); }
+    .post-card p { font-size: 14.5px; margin: 0 0 14px; }
+    .post-meta {
+      display: flex; gap: 8px; align-items: center;
+      font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+    }
+    .post-meta time { color: var(--accent); }
+    .post-card .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .post-card .tag {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.02em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+    }
+    .section-foot { margin-top: 24px; }
+    .empty { color: var(--text-dim); font-family: var(--font-mono); font-size: 13px; }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border);
@@ -553,6 +593,7 @@
         <a href="#selected">selected</a>
         <a href="#full">publications</a>
         <a href="#partners">partners</a>
+        <a href="blog/">blog</a>
       </div>
     </div>
   </nav>
@@ -923,6 +964,29 @@
   </section>
 
   <!-- Industry Partnerships -->
+  <section id="blog">
+    <div class="wrap">
+      <div class="eyebrow">blog</div>
+      <h2>Notes &amp; writing.</h2>
+      <p class="lede" style="max-width: 78ch;">
+        Longer-form thoughts on probabilistic machine learning, perception, and shipping models that have to act under uncertainty.
+      </p>
+      <!-- BLOG:START -->
+<div class="post-grid">
+<a class="post-card" href="/blog/hello-world/">
+  <div class="post-meta"><time datetime="2026-10-12">Oct 12, 2026</time><span>·</span><span>3 min read</span></div>
+  <h3>Hello, world: notes on how this blog is built</h3>
+  <p>A test post that exercises everything the blog pipeline supports — equations, code, figures, tables, and footnotes — and documents how to add a new post.</p>
+  <div class="tags"><span class="tag">meta</span><span class="tag">tooling</span></div>
+</a>
+</div>
+      <!-- BLOG:END -->
+      <div class="section-foot">
+        <a class="btn" href="blog/">All posts →</a>
+      </div>
+    </div>
+  </section>
+
   <section id="partners">
     <div class="wrap">
       <div class="eyebrow">partners</div>

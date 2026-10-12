@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{title}} · {{site_name}}</title>
+  <meta name="description" content="{{summary}}" />
+  <link rel="canonical" href="{{canonical}}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{title}}" />
+  <meta property="og:description" content="{{summary}}" />
+  <meta property="og:url" content="{{canonical}}" />
+  <meta property="article:published_time" content="{{date_iso}}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/blog/blog.css" />{{math_head}}
+  {{generated}}
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-dot"></span>
+        <span class="brand-text">porter.jenkins</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#bio">bio</a>
+        <a href="/#research">research</a>
+        <a href="/#selected">selected</a>
+        <a href="/#full">publications</a>
+        <a href="/blog/" class="active">blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <article class="post">
+      <header class="post-header">
+        <a class="back" href="/blog/">← all posts</a>
+        <div class="eyebrow"><time datetime="{{date_iso}}">{{date_human}}</time><span class="sep">·</span><span>{{reading}}</span></div>
+        <h1>{{title}}</h1>
+        <p class="post-summary">{{summary}}</p>
+        <div class="tags">{{tags}}</div>
+      </header>
+
+      {{toc}}
+
+      <div class="prose">
+{{body}}
+      </div>
+
+      <footer class="post-footer">
+        <a class="btn" href="/blog/">← all posts</a>
+        <a class="btn" href="#top">back to top ↑</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© Porter Jenkins · pjenkins@cs.byu.edu</span>
+      <span>Brigham Young University · Department of Computer Science</span>
+    </div>
+  </footer>
+</body>
+</html>
