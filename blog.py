@@ -335,8 +335,8 @@ def post_page(post: Post) -> str:
         toc=toc_block,
         body=post.html,
         math_head=KATEX_HEAD if post.has_math else "",
-        root="../../",
-        blog="../",
+        root="../../index.html",
+        blog="../index.html",
         css="../blog.css",
     )
 
@@ -344,7 +344,7 @@ def post_page(post: Post) -> str:
 def listing_card(post: Post, base: str) -> str:
     """Card markup; `base` is the relative path to the blog/ directory from the page."""
     summary = f"<p>{esc(post.summary)}</p>" if post.summary else ""
-    return f"""<a class="post-card" href="{base}{post.slug}/">
+    return f"""<a class="post-card" href="{base}{post.slug}/index.html">
   <div class="post-meta"><time datetime="{post.date_iso}">{esc(post.date_human)}</time><span>·</span><span>{post.reading_minutes} min read</span></div>
   <h3>{esc(post.title)}</h3>
   {summary}
@@ -352,8 +352,18 @@ def listing_card(post: Post, base: str) -> str:
 </a>"""
 
 
+def listing_row(post: Post) -> str:
+    """One row of the blog index: date, title, summary."""
+    summary = f"<p>{esc(post.summary)}</p>" if post.summary else ""
+    return f"""<a class="post-row" href="{post.slug}/index.html">
+  <time class="post-date" datetime="{post.date_iso}">{esc(post.date_human)}</time>
+  <span class="post-row-body"><span class="post-title">{esc(post.title)}</span>{summary}</span>
+  <span class="post-arrow" aria-hidden="true">→</span>
+</a>"""
+
+
 def blog_index_page(posts: list[Post]) -> str:
-    cards = "\n".join(listing_card(p, "") for p in posts) or '<p class="empty">No posts yet.</p>'
+    cards = "\n".join(listing_row(p) for p in posts) or '<p class="empty">No posts yet.</p>'
     return fill(
         load_template("blog_index.html"),
         generated=GENERATED_MARK,
@@ -361,8 +371,8 @@ def blog_index_page(posts: list[Post]) -> str:
         canonical=SITE_URL + "/blog/",
         count=str(len(posts)),
         cards=cards,
-        root="../",
-        blog="./",
+        root="../index.html",
+        blog="index.html",
         css="blog.css",
     )
 
