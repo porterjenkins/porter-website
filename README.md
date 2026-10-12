@@ -34,7 +34,13 @@ uv run blog.py build
 
 # Include posts marked `draft: true`
 uv run blog.py build --drafts
+
+# Build and preview in a browser at http://127.0.0.1:8000/blog/
+uv run blog.py serve
 ```
+
+Generated pages use relative paths, so double-clicking `blog/<slug>/index.html`
+also renders correctly without a server.
 
 `uv run` installs the dependencies listed at the top of `blog.py` into an
 isolated environment. Without uv: `pip install -r requirements.txt` and

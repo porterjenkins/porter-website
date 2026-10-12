@@ -9,23 +9,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/blog/blog.css" />
+  <link rel="stylesheet" href="{{css}}" />
   {{generated}}
 </head>
 <body>
 
   <nav class="nav">
     <div class="wrap nav-inner">
-      <a class="brand" href="/">
+      <a class="brand" href="{{root}}">
         <span class="brand-dot"></span>
         <span class="brand-text">porter.jenkins</span>
       </a>
       <div class="nav-links">
-        <a href="/#bio">bio</a>
-        <a href="/#research">research</a>
-        <a href="/#selected">selected</a>
-        <a href="/#full">publications</a>
-        <a href="/blog/" class="active">blog</a>
+        <a href="{{root}}#bio">bio</a>
+        <a href="{{root}}#research">research</a>
+        <a href="{{root}}#selected">selected</a>
+        <a href="{{root}}#full">publications</a>
+        <a href="{{blog}}" class="active">blog</a>
       </div>
     </div>
   </nav>

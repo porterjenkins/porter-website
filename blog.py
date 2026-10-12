@@ -17,6 +17,7 @@ Usage
   uv run blog.py import PATH.md     # copy an external markdown file (and its
                                     # local images) into posts/<slug>/ and build
   uv run blog.py import PATH.md --slug my-slug
+  uv run blog.py serve              # build, then preview at http://127.0.0.1:8000/blog/
 
 (`python3 blog.py ...` also works if the dependencies above are installed,
 e.g. `pip install -r requirements.txt`.)
@@ -334,12 +335,16 @@ def post_page(post: Post) -> str:
         toc=toc_block,
         body=post.html,
         math_head=KATEX_HEAD if post.has_math else "",
+        root="../../",
+        blog="../",
+        css="../blog.css",
     )
 
 
-def listing_card(post: Post) -> str:
+def listing_card(post: Post, base: str) -> str:
+    """Card markup; `base` is the relative path to the blog/ directory from the page."""
     summary = f"<p>{esc(post.summary)}</p>" if post.summary else ""
-    return f"""<a class="post-card" href="{post.url}">
+    return f"""<a class="post-card" href="{base}{post.slug}/">
   <div class="post-meta"><time datetime="{post.date_iso}">{esc(post.date_human)}</time><span>·</span><span>{post.reading_minutes} min read</span></div>
   <h3>{esc(post.title)}</h3>
   {summary}
@@ -348,7 +353,7 @@ def listing_card(post: Post) -> str:
 
 
 def blog_index_page(posts: list[Post]) -> str:
-    cards = "\n".join(listing_card(p) for p in posts) or '<p class="empty">No posts yet.</p>'
+    cards = "\n".join(listing_card(p, "") for p in posts) or '<p class="empty">No posts yet.</p>'
     return fill(
         load_template("blog_index.html"),
         generated=GENERATED_MARK,
@@ -356,11 +361,14 @@ def blog_index_page(posts: list[Post]) -> str:
         canonical=SITE_URL + "/blog/",
         count=str(len(posts)),
         cards=cards,
+        root="../",
+        blog="./",
+        css="blog.css",
     )
 
 
 def home_cards(posts: list[Post]) -> str:
-    cards = "\n".join(listing_card(p) for p in posts[:HOME_CARD_COUNT])
+    cards = "\n".join(listing_card(p, "blog/") for p in posts[:HOME_CARD_COUNT])
     if not cards:
         cards = '<p class="empty">No posts yet.</p>'
     return f'<div class="post-grid">\n{cards}\n</div>'
@@ -528,6 +536,32 @@ def import_post(src: Path, slug: str | None, overwrite: bool, include_drafts: bo
 
 
 # ----------------------------------------------------------------------------
+# Serve
+# ----------------------------------------------------------------------------
+
+
+def serve(port: int, open_browser: bool, path: str) -> None:
+    """Serve the site root over HTTP so root-relative links and fonts behave like production."""
+    import functools
+    import http.server
+    import threading
+    import webbrowser
+
+    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
+    httpd = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler)
+    url = f"http://127.0.0.1:{port}/{path.lstrip('/')}"
+    print(f"Serving {ROOT} at {url}  (Ctrl-C to stop)")
+    if open_browser:
+        threading.Timer(0.4, webbrowser.open, args=(url,)).start()
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        httpd.server_close()
+
+
+# ----------------------------------------------------------------------------
 # CLI
 # ----------------------------------------------------------------------------
 
@@ -545,8 +579,18 @@ def main(argv: list[str] | None = None) -> None:
     i.add_argument("--overwrite", action="store_true", help="replace an existing post with the same slug")
     i.add_argument("--drafts", action="store_true", help="include drafts when rebuilding")
 
+    sv = sub.add_parser("serve", help="build, then preview the site at http://127.0.0.1:8000/")
+    sv.add_argument("--port", type=int, default=8000)
+    sv.add_argument("--no-open", action="store_true", help="don't open a browser tab")
+    sv.add_argument("--path", default="blog/", help="path to open (default: blog/)")
+    sv.add_argument("--drafts", action="store_true", help="include drafts in the build")
+
     args = ap.parse_args(argv)
-    if args.cmd == "build":
+    if args.cmd == "serve":
+        print("Building…")
+        build(include_drafts=args.drafts)
+        serve(args.port, not args.no_open, args.path)
+    elif args.cmd == "build":
         print("Building…")
         build(include_drafts=args.drafts)
     elif args.cmd == "import":
