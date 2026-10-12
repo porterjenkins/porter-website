@@ -769,11 +769,35 @@
       <div class="eyebrow">selected</div>
       <h2>Selected publications.</h2>
       <p style="max-width: 78ch;">
-        Top-tier venues that anchor my recent research arc on uncertainty quantification, 3D perception,
-        and probabilistic decision-making.
+        Top-tier venues that anchor my research arc — from probabilistic decision-making and 3D perception,
+        through uncertainty quantification, to reliable reasoning and generation in large models.
       </p>
 
       <div class="pubs-selected">
+        <article class="pub-card">
+          <div class="pub-head">
+            <span class="venue-badge">NeurIPS 2026</span>
+            <span class="topic-tag">LLM reasoning</span>
+            <span class="topic-tag">distillation</span>
+            <span class="topic-tag">data selection</span>
+          </div>
+          <h3>LARK: Learnability-Grounded Trajectory Selection for Efficient Reasoning Distillation</h3>
+          <div class="pub-authors">Tianrun Yu, Kaixiang Zhao, Chih-Chun Chen, Amanda Hughes, Taylor W. Killian, Fenglong Ma, Weitong Zhang, <b>Porter Jenkins</b></div>
+          <p class="pub-summary">Selects teacher reasoning trajectories a student can actually learn from: a learnability rate ρ estimates how fast each trajectory drives the student's loss down, and a χ²-regularized closed-form selection policy balances learnability against distributional coverage — roughly 7 points over the strongest baseline on AIME, AMC, GPQA, and MATH-500.</p>
+        </article>
+
+        <article class="pub-card">
+          <div class="pub-head">
+            <span class="venue-badge">EMNLP 2026</span>
+            <span class="topic-tag">hallucination</span>
+            <span class="topic-tag">multimodal</span>
+            <span class="topic-tag">self-correction</span>
+          </div>
+          <h3>TIGER: Traceable Inference with Graph-Based Evidence Routing for Mitigating Hallucinations in Multimodal Generation</h3>
+          <div class="pub-authors">Kaixiang Zhao, Tianrun Yu, Shawn Huang, <b>Porter Jenkins</b>, Yushun Dong, Amanda Hughes</div>
+          <p class="pub-summary">Shows that naive self-correction can amplify hallucinations, then repairs generations at the fact level: independent observation and claim graphs, per-claim risk scores, and evidence routing with a geometric convergence guarantee — across image, image+text, audio, and video inputs, with a CrisisFACTS case study.</p>
+        </article>
+
         <article class="pub-card">
           <div class="pub-head">
             <span class="venue-badge">ICLR 2026</span>
@@ -878,6 +902,18 @@
       <div class="year-group">
         <div class="year-head"><span class="year">2026</span><span class="rule"></span></div>
         <ul class="pub-list">
+          <li>
+            <span class="pub-title">LARK: Learnability-Grounded Trajectory Selection for Efficient Reasoning Distillation</span>
+            <div class="pub-meta">Yu, Zhao, Chen, Hughes, Killian, Ma, Zhang, <b>Jenkins</b> · <span class="venue-mini">NeurIPS'26</span></div>
+          </li>
+          <li>
+            <span class="pub-title">TIGER: Traceable Inference with Graph-Based Evidence Routing for Mitigating Hallucinations in Multimodal Generation</span>
+            <div class="pub-meta">Zhao, Yu, Huang, <b>Jenkins</b>, Dong, Hughes · <span class="venue-mini">EMNLP'26</span></div>
+          </li>
+          <li>
+            <span class="pub-title">FRAME: Forensic Routing and Adaptive Multi-path Evidence Fusion for Image Manipulation Detection</span>
+            <div class="pub-meta">Zhao, Yu, Zhang, Su, <b>Jenkins</b>, Hughes · <span class="venue-mini">CVPR-SAFE'26</span></div>
+          </li>
           <li>
             <span class="pub-title">Provable and Practical In-Context Policy Optimization for Self-Improvement</span>
             <div class="pub-meta">Yu, Yang, Wang, Zhao, <b>Jenkins</b>, Zhang, Bansal, Yao, Zhang · <span class="venue-mini">ICLR'26</span></div>
