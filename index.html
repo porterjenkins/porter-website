@@ -154,6 +154,30 @@
       content: '//';
       color: var(--text-dim);
     }
+    .eyebrow-roles .role-wrap { display: inline-flex; align-items: center; }
+    .eyebrow-roles .role { white-space: pre; }
+    .eyebrow-roles .caret {
+      display: inline-block;
+      width: 7px;
+      height: 1.05em;
+      margin-left: 1px;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .eyebrow-roles .caret { animation: none; }
+    }
     h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; }
     h1 {
       font-size: clamp(2.6rem, 6.4vw, 5rem);
@@ -536,7 +560,10 @@
   <!-- Hero -->
   <header id="top" class="hero">
     <div class="wrap">
-      <div class="eyebrow">ai scientist · researcher · educator</div>
+      <div class="eyebrow eyebrow-roles">
+        <span class="sr-only">ai scientist · researcher · educator</span>
+        <span class="role-wrap" aria-hidden="true"><span class="role" id="role-type">ai scientist</span><span class="caret"></span></span>
+      </div>
       <h1>Porter <span class="grad">Jenkins</span>.</h1>
       <p class="hero-sub">
         Building machine learning systems that are reliable enough to act on under uncertainty —
@@ -954,6 +981,29 @@
   </footer>
 
   <script>
+    // Cycle hero roles with a typewriter effect
+    (function () {
+      const el = document.getElementById('role-type');
+      if (!el) return;
+      const roles = ['ai scientist', 'researcher', 'educator'];
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = roles.join(' \u00b7 ');
+        return;
+      }
+      const TYPE_MS = 85, DELETE_MS = 45, HOLD_MS = 1800, GAP_MS = 350;
+      let i = 0, pos = roles[0].length, deleting = true;
+      function tick() {
+        const word = roles[i];
+        pos += deleting ? -1 : 1;
+        el.textContent = word.slice(0, pos);
+        let delay = deleting ? DELETE_MS : TYPE_MS;
+        if (!deleting && pos === word.length) { deleting = true; delay = HOLD_MS; }
+        else if (deleting && pos === 0) { deleting = false; i = (i + 1) % roles.length; delay = GAP_MS; }
+        setTimeout(tick, delay);
+      }
+      setTimeout(tick, HOLD_MS);
+    })();
+
     // Reveal on scroll
     (function () {
       const els = document.querySelectorAll('section, .pub-card, .partner-card, .research-card');
